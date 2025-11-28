@@ -4,27 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predicción de Diabetes</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 2em; max-width: 600px; margin: auto; }
+        form { margin-top: 1em; display: grid; grid-template-columns: 1fr 1fr; gap: 1em 2em; }
+        label { display: block; margin-top: 0.5em; font-weight: bold; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 20px; margin-top: 1.5em; grid-column: span 2; justify-self: center; }
+        h1, h2 { text-align: center; }
+        h2 { color: #007BFF; }
+        .full-width { grid-column: span 2; }
+        .description { text-align: center; margin-top: 1em; font-size: 0.9em; }
+    </style>
 </head>
 <body>
     <h1>Ingrese los datos para la predicción</h1>
+    
+    <p class="description">
+        Este modelo se entrenó con el dataset de Kaggle: <a href="https://www.kaggle.com/datasets/mathchi/diabetes-data-set" target="_blank">Diabetes Data Set</a>. 
+        El modelo utilizado fue XGBoost, obteniendo un rendimiento del 84% de AUC para los resultados de la predicción.
+    </p>
+
     <form action="/predict" method="post">
-        <label for="glucose">Glucose:</label><br>
-        <input type="number" id="glucose" name="glucose" step="any" required><br><br>
-        
-        <label for="bmi">BMI (Índice de Masa Corporal):</label><br>
-        <input type="number" id="bmi" name="bmi" step="any" required><br><br>
-        
-        <label for="age">Age (Edad):</label><br>
-        <input type="number" id="age" name="age" required><br><br>
-        
-        <label for="insulin">Insulin:</label><br>
-        <input type="number" id="insulin" name="insulin" step="any" required><br><br>
+        <div>
+            <label for="pregnancies">Pregnancies (ej. 0-15):</label>
+            <input type="number" id="pregnancies" name="pregnancies" required>
+        </div>
+        <div>
+            <label for="glucose">Glucose (ej. 70-200):</label>
+            <input type="number" id="glucose" name="glucose" step="any" required>
+        </div>
+        <div>
+            <label for="blood_pressure">Blood Pressure (ej. 60-120):</label>
+            <input type="number" id="blood_pressure" name="blood_pressure" step="any" required>
+        </div>
+        <div>
+            <label for="skin_thickness">Skin Thickness (ej. 10-50):</label>
+            <input type="number" id="skin_thickness" name="skin_thickness" step="any" required>
+        </div>
+        <div>
+            <label for="insulin">Insulin (ej. 0-300):</label>
+            <input type="number" id="insulin" name="insulin" step="any" required>
+        </div>
+        <div>
+            <label for="bmi">BMI (ej. 15-50):</label>
+            <input type="number" id="bmi" name="bmi" step="any" required>
+        </div>
+        <div>
+            <label for="dpf">Diabetes Pedigree Func. (ej. 0.1-1.5):</label>
+            <input type="number" id="dpf" name="dpf" step="any" required>
+        </div>
+        <div>
+            <label for="age">Age (ej. 21-80):</label>
+            <input type="number" id="age" name="age" required>
+        </div>
         
         <button type="submit">Predecir</button>
     </form>
 
     {% if prediction_text %}
-    <h2>{{ prediction_text }}</h2>
+    <hr class="full-width">
+    <h2 class="full-width">{{ prediction_text }}</h2>
     {% endif %}
 </body>
 </html>

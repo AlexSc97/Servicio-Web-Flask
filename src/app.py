@@ -20,28 +20,45 @@ def home():
 # Definir la ruta para recibir los datos y hacer la predicción
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Obtener los datos del formulario
-    glucose = float(request.form['glucose'])
-    bmi = float(request.form['bmi'])
-    age = int(request.form['age'])
-    insulin = float(request.form['insulin'])
+    try:
+        # Recoger todos los valores del formulario
+        pregnancies = float(request.form['pregnancies'])
+        glucose = float(request.form['glucose'])
+        blood_pressure = float(request.form['blood_pressure'])
+        skin_thickness = float(request.form['skin_thickness'])
+        insulin = float(request.form['insulin'])
+        bmi = float(request.form['bmi'])
+        dpf = float(request.form['dpf'])
+        age = float(request.form['age'])
 
-    # Crear el array de características para el modelo
-    # Asegúrate de que el orden de las características coincida con el que espera tu modelo
-    features = np.array([[glucose, bmi, age, insulin]])
+        # Crear el array de numpy en el orden correcto que el modelo espera
+        features = np.array([[
+            pregnancies, 
+            glucose, 
+            blood_pressure, 
+            skin_thickness, 
+            insulin, 
+            bmi, 
+            dpf, 
+            age
+        ]])
 
-    # Realizar la predicción
-    prediction = model.predict(features)
+        # Realizar la predicción
+        prediction = model.predict(features)
 
-    # Interpretar el resultado de la predicción
-    # Esto puede variar dependiendo de lo que tu modelo devuelva (ej. 0 o 1)
-    if prediction[0] == 1:
-        result_text = "El modelo predice: Positivo para Diabetes"
-    else:
-        result_text = "El modelo predice: Negativo para Diabetes"
+        # Interpretar el resultado
+        if prediction[0] == 1:
+            result_text = "Resultado: Positivo para Diabetes"
+        else:
+            result_text = "Resultado: Negativo para Diabetes"
 
-    # Renderizar la misma página pero con el resultado de la predicción
-    return render_template('index.html', prediction_text=result_text)
+        return render_template('index.html', prediction_text=result_text)
+
+    except Exception as e:
+        # Si ocurre un error, lo mostramos para facilitar el debug
+        error_message = f"Error al procesar la predicción: {e}"
+        return render_template('index.html', prediction_text=error_message)
+
 
 # Permitir que la aplicación se ejecute
 if __name__ == '__main__':
