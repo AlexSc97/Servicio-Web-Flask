@@ -2,11 +2,15 @@ from flask import Flask, render_template, request
 import pickle
 import numpy as np
 
+import os
+
 # Inicializar la aplicación Flask
 app = Flask(__name__)
 
 # Ruta donde se almacena el modelo
-model_path = '../models/modelo_xg_optimizado.pkl'
+# Usamos os.path para obtener la ruta absoluta y evitar errores en Render
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model_path = os.path.join(base_dir, 'models', 'modelo_xg_optimizado.pkl')
 
 # Cargar el modelo al iniciar la aplicación
 with open(model_path, 'rb') as file:
