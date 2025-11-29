@@ -13,11 +13,11 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Inicializar la aplicación Flask
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 # Ruta donde se almacena el modelo
 # Usamos os.path para obtener la ruta absoluta y evitar errores en Render
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+base_dir = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(base_dir, 'models', 'modelo_xg_optimizado.pkl')
 
 # Cargar el modelo al iniciar la aplicación
